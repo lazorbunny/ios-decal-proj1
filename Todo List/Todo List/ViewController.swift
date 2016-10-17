@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  To Do List
+//  Todo List
 //
 //  Created by chena on 10/16/16.
 //  Copyright © 2016 julie. All rights reserved.
