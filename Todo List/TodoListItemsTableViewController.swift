@@ -13,11 +13,12 @@ class TodoListItemsTableViewController: UITableViewController {
     var itemList: [TodoItem] = []
     var completeCount = 0
     var timeCounter = 0
-    let TIMETOEXPIRE = 5
+    let TIMETOUPDATE = 1.0 //60.0
+    let TIMETOEXPIRE = 3 //1440
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimerCount), userInfo: nil, repeats: true)
+        let _ = Timer.scheduledTimer(timeInterval: TIMETOUPDATE, target: self, selector: #selector(updateTimerCount), userInfo: nil, repeats: true)
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -47,13 +48,12 @@ class TodoListItemsTableViewController: UITableViewController {
         let cell = tempCell.textLabel as UILabel!
         cell?.text = item.itemLabel
         
+        //display checkmark for completed items
         if (item.isComplete) {
             tempCell.accessoryType = UITableViewCellAccessoryType.checkmark
         } else {
             tempCell.accessoryType = UITableViewCellAccessoryType.none
         }
-        
-        print("donk")
         
         return tempCell
     }
@@ -61,6 +61,7 @@ class TodoListItemsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
         
+        //if selected to complete, mark as completed and record time of completion
         let selectedItem = itemList[indexPath.row] as TodoItem
         selectedItem.isComplete = !selectedItem.isComplete
         if (selectedItem.isComplete) {
@@ -69,7 +70,6 @@ class TodoListItemsTableViewController: UITableViewController {
             
         } else {
             completeCount -= 1
-            selectedItem.timeSinceCompleted = 0
         }
         
         print("complete count after selection or deselection: \(completeCount)")
@@ -77,6 +77,7 @@ class TodoListItemsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        //swipe delete
         if editingStyle == .delete {
             let tdItem = itemList[indexPath.row]
             itemList.remove(at: indexPath.row)
@@ -92,6 +93,7 @@ class TodoListItemsTableViewController: UITableViewController {
         return true
     }
     
+    // Receive data from add todo items
     @IBAction func unwindAndAddToList(segue: UIStoryboardSegue) {
         let source = segue.source as! AddTodoItemViewController
         let tdItem: TodoItem = source.tdItem
@@ -103,6 +105,7 @@ class TodoListItemsTableViewController: UITableViewController {
         }
     }
     
+    // Prepare to send data to stats page
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueShowStats" {
             let destViewController = segue.destination as! StatsViewController
@@ -110,29 +113,23 @@ class TodoListItemsTableViewController: UITableViewController {
         }
     }
     
-    /*
+    // Called every minute by timer
     func updateTimerCount() {
         timeCounter += 1
-        print("time elapsed: \(timeCounter)")
-    }
-     */
-    
-    
-    func updateTimerCount(_ tableView: UITableView) {
-        timeCounter += 1
-        print("time elapsed: \(timeCounter)")
+        print("time elapsed: \(timeCounter) minutes")
         
-        
-        
-        /*
-        let tdItem = itemList[indexPath.row]
-        if tdItem.isComplete && ((timeCounter - tdItem.timeSinceCompleted) > TIMETOEXPIRE) {
-            print("item \(tdItem.itemLabel) expired, started at \(tdItem.timeSinceCompleted)")
-            itemList.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            completeCount -= 1
+        if itemList.count > 0 {
+            for i in (stride(from: itemList.count - 1, through: 0, by: -1)) {
+                let tdItem = itemList[i]
+                if tdItem.isComplete && ((timeCounter - tdItem.timeSinceCompleted) > TIMETOEXPIRE) {
+                    print("item \(tdItem.itemLabel) expired, started at \(tdItem.timeSinceCompleted)")
+                    let indexPath = IndexPath.init(row: i, section: 0)
+                    itemList.remove(at: i)
+                    self.tableView.deleteRows(at: [indexPath], with: .fade)
+                    self.tableView.reloadData()
+                    completeCount -= 1
+                }
+            }
         }
-         */
     }
-
 }

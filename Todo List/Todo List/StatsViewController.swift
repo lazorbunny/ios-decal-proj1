@@ -14,8 +14,9 @@ class StatsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //update the completed items label
         completedItemsCount.text = String(completeCount)
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {

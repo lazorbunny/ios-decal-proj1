@@ -24,6 +24,7 @@ class AddTodoItemViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    // Prepare to send data to list
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if ((self.todoText.text?.characters.count)! > 0) {
             self.tdItem = TodoItem(itemLabel: self.todoText.text!)
