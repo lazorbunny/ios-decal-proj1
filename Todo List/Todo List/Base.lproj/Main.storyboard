@@ -20,7 +20,7 @@
                                 <rect key="frame" x="0.0" y="92" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4pi-CQ-8xJ" id="7pD-tB-PVJ">
-                                    <frame key="frameInset" width="375" height="43"/>
+                                    <frame key="frameInset" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -33,12 +33,12 @@
                     <navigationItem key="navigationItem" title="Todo List" id="QDc-Pi-QqK">
                         <barButtonItem key="leftBarButtonItem" title="Stats" id="lVf-6w-kxV">
                             <connections>
-                                <segue destination="f9g-Fe-nGK" kind="presentation" id="xo1-4j-7gS"/>
+                                <segue destination="dns-HI-AL2" kind="show" identifier="segueShowStats" id="FAW-Ut-jFZ"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="ZpC-mW-DQ4">
                             <connections>
-                                <segue destination="Kbo-M6-Rae" kind="presentation" id="qKz-SR-Rah"/>
+                                <segue destination="BYZ-38-t0r" kind="show" id="OPW-Wz-zzb"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -58,20 +58,38 @@
                     <view key="view" contentMode="scaleToFill" id="C7a-ii-bqE">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Completed" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DOG-Zf-JkB">
+                                <frame key="frameInset" minX="43" minY="85" width="286" height="86"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="36"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ha-dK-ztZ">
+                                <frame key="frameInset" minX="164" minY="215" width="46" height="27"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="2ha-dK-ztZ" firstAttribute="leading" secondItem="C7a-ii-bqE" secondAttribute="leadingMargin" constant="149" id="Ak9-VF-tfi"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="2ha-dK-ztZ" secondAttribute="trailing" constant="148" id="LTL-vN-YIQ"/>
+                            <constraint firstItem="DOG-Zf-JkB" firstAttribute="leading" secondItem="C7a-ii-bqE" secondAttribute="leadingMargin" constant="27" id="Waz-R2-tse"/>
+                            <constraint firstItem="2ha-dK-ztZ" firstAttribute="top" secondItem="DOG-Zf-JkB" secondAttribute="bottom" constant="24" id="XdA-a2-723"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="DOG-Zf-JkB" secondAttribute="trailing" constant="30" id="gb3-BB-pHK"/>
+                            <constraint firstItem="DOG-Zf-JkB" firstAttribute="top" secondItem="gl9-Rk-Y3X" secondAttribute="bottom" constant="21" id="zHl-op-cvC"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Stats" id="3lh-Wd-dGH">
-                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="kyw-uK-z3f">
-                            <connections>
-                                <segue destination="oPx-Oi-S5D" kind="unwind" unwindAction="returnToListWithSegue:" id="0MK-ym-AbG"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Stats" id="3lh-Wd-dGH"/>
+                    <connections>
+                        <outlet property="completedItemsCount" destination="2ha-dK-ztZ" id="mga-IS-wac"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gnw-pJ-NPO" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="oPx-Oi-S5D" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1996" y="-322"/>
+            <point key="canvasLocation" x="1364" y="-207.34632683658174"/>
         </scene>
         <!--Add Todo Item-->
         <scene sceneID="tne-QT-ifu">
@@ -86,7 +104,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="New Todo" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wSw-6O-to5">
-                                <frame key="frameInset" minX="16" minY="93" width="343" height="30"/>
+                                <frame key="frameInset" minX="16" minY="72" width="343" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -100,22 +118,21 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Add Todo Item" id="7qV-ea-LkV">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="kE1-a4-Rl0">
-                            <connections>
-                                <segue destination="mPo-iw-XIe" kind="unwind" unwindAction="returnToListWithSegue:" id="qrD-u1-jhf"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="I5i-bs-qeK">
                             <connections>
-                                <segue destination="mPo-iw-XIe" kind="unwind" unwindAction="returnToListWithSegue:" id="eBV-Ll-qvu"/>
+                                <segue destination="mPo-iw-XIe" kind="unwind" unwindAction="unwindAndAddToListWithSegue:" id="j1m-C5-TBd"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="doneButton" destination="I5i-bs-qeK" id="aMR-dc-rqf"/>
+                        <outlet property="todoText" destination="wSw-6O-to5" id="Arw-mf-b65"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <exit id="mPo-iw-XIe" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1996" y="540"/>
+            <point key="canvasLocation" x="1364" y="506"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="bhe-HE-ywS">
@@ -134,42 +151,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fM7-qx-hfx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-714.39999999999998" y="136.28185907046478"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="Ci9-iM-T2t">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Kbo-M6-Rae" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Esb-bF-4BS">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="sZg-23-Z0P"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="7Zd-4l-xLv" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1094" y="541"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="GWP-BW-uaf">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="f9g-Fe-nGK" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="HB5-gT-wbW">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="dns-HI-AL2" kind="relationship" relationship="rootViewController" id="ldg-DZ-IMw"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="BuO-2z-hQT" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1093.5999999999999" y="-321.58920539730138"/>
         </scene>
     </scenes>
 </document>

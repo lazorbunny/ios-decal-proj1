@@ -9,7 +9,10 @@
 import UIKit
 
 class AddTodoItemViewController: UIViewController {
-
+    @IBOutlet weak var todoText: UITextField!
+    @IBOutlet weak var doneButton: UIBarButtonItem!
+    var tdItem: TodoItem = TodoItem(itemLabel: "")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -21,7 +24,12 @@ class AddTodoItemViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if ((self.todoText.text?.characters.count)! > 0) {
+            self.tdItem = TodoItem(itemLabel: self.todoText.text!)
+        }
+    }
+    
     /*
     // MARK: - Navigation
 

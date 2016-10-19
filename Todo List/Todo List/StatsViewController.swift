@@ -9,10 +9,12 @@
 import UIKit
 
 class StatsViewController: UIViewController {
-
+    @IBOutlet weak var completedItemsCount: UILabel!
+    var completeCount: Int = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        completedItemsCount.text = String(completeCount)
         // Do any additional setup after loading the view.
     }
 
@@ -20,7 +22,6 @@ class StatsViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
     /*
     // MARK: - Navigation

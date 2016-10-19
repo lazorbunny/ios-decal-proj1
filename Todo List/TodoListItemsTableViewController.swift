@@ -11,10 +11,13 @@ import UIKit
 class TodoListItemsTableViewController: UITableViewController {
 
     var itemList: [TodoItem] = []
+    var completeCount = 0
+    var timeCounter = 0
+    let TIMETOEXPIRE = 5
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadInitData()
+        let timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimerCount), userInfo: nil, repeats: true)
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -30,91 +33,106 @@ class TodoListItemsTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return itemList.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let tempCell = tableView.dequeueReusableCell(withIdentifier: "ListPrototypeCell")! as UITableViewCell
-        let todoItem = itemList[indexPath.row]
+        let item = itemList[indexPath.row]
         
         let cell = tempCell.textLabel as UILabel!
-        cell?.text = todoItem.itemLabel
+        cell?.text = item.itemLabel
+        
+        if (item.isComplete) {
+            tempCell.accessoryType = UITableViewCellAccessoryType.checkmark
+        } else {
+            tempCell.accessoryType = UITableViewCellAccessoryType.none
+        }
+        
+        print("donk")
         
         return tempCell
     }
     
-    
-    @IBAction func returnToList(segue: UIStoryboardSegue) {
-        print("Returning")
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
+        
+        let selectedItem = itemList[indexPath.row] as TodoItem
+        selectedItem.isComplete = !selectedItem.isComplete
+        if (selectedItem.isComplete) {
+            completeCount += 1
+            selectedItem.timeSinceCompleted = timeCounter
+            
+        } else {
+            completeCount -= 1
+            selectedItem.timeSinceCompleted = 0
+        }
+        
+        print("complete count after selection or deselection: \(completeCount)")
+        tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.none)
     }
     
-    func loadInitData() {
-        itemList = [
-            TodoItem(itemLabel: "do a thing"),
-            TodoItem(itemLabel: "be a man"),
-            TodoItem(itemLabel: "eat dirt")
-        ]
-    }
-
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
-    }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
+            let tdItem = itemList[indexPath.row]
+            itemList.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+            if (completeCount > 0 && tdItem.isComplete) {
+                completeCount -= 1
+            }
+            print("complete count after deletion: \(completeCount)")
+        }
     }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    @IBAction func unwindAndAddToList(segue: UIStoryboardSegue) {
+        let source = segue.source as! AddTodoItemViewController
+        let tdItem: TodoItem = source.tdItem
+        
+        if tdItem.itemLabel != "" {
+            self.itemList.append(tdItem)
+            print("Adding new todo item")
+            self.tableView.reloadData()
+        }
     }
-    */
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "segueShowStats" {
+            let destViewController = segue.destination as! StatsViewController
+            destViewController.completeCount = self.completeCount
+        }
+    }
+    
+    /*
+    func updateTimerCount() {
+        timeCounter += 1
+        print("time elapsed: \(timeCounter)")
+    }
+     */
+    
+    
+    func updateTimerCount(_ tableView: UITableView) {
+        timeCounter += 1
+        print("time elapsed: \(timeCounter)")
+        
+        
+        
+        /*
+        let tdItem = itemList[indexPath.row]
+        if tdItem.isComplete && ((timeCounter - tdItem.timeSinceCompleted) > TIMETOEXPIRE) {
+            print("item \(tdItem.itemLabel) expired, started at \(tdItem.timeSinceCompleted)")
+            itemList.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            completeCount -= 1
+        }
+         */
+    }
 
 }

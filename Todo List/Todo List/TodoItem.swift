@@ -11,6 +11,7 @@ import UIKit
 class TodoItem: NSObject {
     let itemLabel: String
     var isComplete: Bool
+    var timeSinceCompleted = 0
     
     init(itemLabel: String, isComplete: Bool = false) {
         self.itemLabel = itemLabel
