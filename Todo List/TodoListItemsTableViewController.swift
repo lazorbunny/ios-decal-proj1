@@ -13,8 +13,8 @@ class TodoListItemsTableViewController: UITableViewController {
     var itemList: [TodoItem] = []
     var completeCount = 0
     var timeCounter = 0
-    let TIMETOUPDATE = 1.0 //60.0
-    let TIMETOEXPIRE = 3 //1440
+    let TIMETOUPDATE = 60.0
+    let TIMETOEXPIRE = 1440
     
     override func viewDidLoad() {
         super.viewDidLoad()
